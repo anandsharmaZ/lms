@@ -31,9 +31,9 @@ import {
   History,
   Globe
 } from 'lucide-react';
-import { showSuccessToast, showErrorToast } from '@/lib/toast';
-import AdminLayout from '@/components/admin/AdminLayout';
-import adminApi from '@/lib/adminApi';
+import { showSuccessToast, showErrorToast } from '@/src/utils/toast.util';
+import AdminLayout from '@/src/features/admin/components/AdminLayout';
+import adminApi from '@/src/services/admin-api.service';
 
 // Validation schemas
 const studentSchema = z.object({

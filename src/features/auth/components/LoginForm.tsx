@@ -7,8 +7,9 @@ import { zodResolver } from '@hookform/resolvers/zod';
 import { z } from 'zod';
 import { toast } from 'react-hot-toast';
 import { Eye, EyeOff, Lock, User, AlertCircle } from 'lucide-react';
+import { DEMO_CREDENTIALS } from '@/src/constants/demo.constants';
+import { ROUTES } from '@/src/config/routes.config';
 
-// Validation schema
 const loginSchema = z.object({
   email: z.string().email('Please enter a valid email address'),
   password: z.string().min(6, 'Password must be at least 6 characters'),
@@ -31,48 +32,47 @@ export function LoginForm() {
 
   const onSubmit = async (data: LoginFormData) => {
     setIsLoading(true);
-    
+
     try {
-      // Demo credentials for testing
-      if (data.email === 'student@lms.com' && data.password === 'student123') {
+      if (data.email === DEMO_CREDENTIALS.student.email && data.password === DEMO_CREDENTIALS.student.password) {
         await new Promise(resolve => setTimeout(resolve, 1000));
-        
+
         localStorage.setItem('userToken', 'demo-student-token');
         localStorage.setItem('user', JSON.stringify({
           id: '2',
           email: data.email,
           name: 'Student User',
-          role: 'student'
+          role: DEMO_CREDENTIALS.student.role
         }));
-        
+
         toast.success('Login successful! Welcome to your dashboard.');
-        router.push('/student/dashboard');
-      } else if (data.email === 'teacher@lms.com' && data.password === 'teacher123') {
+        router.push(ROUTES.student.dashboard);
+      } else if (data.email === DEMO_CREDENTIALS.teacher.email && data.password === DEMO_CREDENTIALS.teacher.password) {
         await new Promise(resolve => setTimeout(resolve, 1000));
-        
+
         localStorage.setItem('userToken', 'demo-teacher-token');
         localStorage.setItem('user', JSON.stringify({
           id: '3',
           email: data.email,
           name: 'Teacher User',
-          role: 'teacher'
+          role: DEMO_CREDENTIALS.teacher.role
         }));
-        
+
         toast.success('Login successful! Welcome to your dashboard.');
-        router.push('/teacher/dashboard');
-      } else if (data.email === 'admin@lms.com' && data.password === 'admin123') {
+        router.push(ROUTES.teacher.dashboard);
+      } else if (data.email === DEMO_CREDENTIALS.admin.email && data.password === DEMO_CREDENTIALS.admin.password) {
         await new Promise(resolve => setTimeout(resolve, 1000));
-        
+
         localStorage.setItem('adminToken', 'demo-admin-token');
         localStorage.setItem('adminUser', JSON.stringify({
           id: '1',
           email: data.email,
           name: 'Admin User',
-          role: 'admin'
+          role: DEMO_CREDENTIALS.admin.role
         }));
-        
+
         toast.success('Login successful! Welcome to the admin dashboard.');
-        router.push('/admin/dashboard');
+        router.push(ROUTES.admin.dashboard);
       } else {
         toast.error('Invalid credentials. Use demo accounts for testing.');
       }

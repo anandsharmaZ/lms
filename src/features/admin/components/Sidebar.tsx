@@ -2,65 +2,18 @@
 
 import React from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
-import {
-  Home,
-  Users,
-  BookOpen,
-  GraduationCap,
-  Calendar,
-  BarChart3,
-  Settings,
-  Bell,
-  MessageSquare,
-  FileText,
-  Award,
-  ChevronLeft,
-  ChevronRight,
-  LogOut,
-  User,
-  CreditCard,
-  Shield,
-  Database,
-  Globe,
-  Smartphone,
-  Monitor,
-  Cloud,
-  HelpCircle,
-  Mail,
-  Phone,
-} from 'lucide-react';
+import { GraduationCap, ChevronLeft, ChevronRight, LogOut, User } from 'lucide-react';
 import { useRouter, usePathname } from 'next/navigation';
 import Link from 'next/link';
-import { showSuccessToast, showErrorToast } from '@/lib/toast';
+import { showSuccessToast, showErrorToast } from '@/src/utils/toast.util';
+import { ADMIN_MENU_ITEMS } from '@/src/constants/menu.constants';
+import { ROUTES } from '@/src/config/routes.config';
+import adminApiService from '@/src/services/admin-api.service';
 
 interface SidebarProps {
   isCollapsed: boolean;
   setIsCollapsed: (collapsed: boolean) => void;
 }
-
-const menuItems = [
-  { icon: Home, label: 'Dashboard', href: '/admin/dashboard' },
-  { icon: Users, label: 'Users', href: '/admin/users' },
-  { icon: BookOpen, label: 'Courses', href: '/admin/courses' },
-  { icon: GraduationCap, label: 'Live Classes', href: '/admin/classes' },
-  { icon: Calendar, label: 'Schedule', href: '/admin/schedule' },
-  { icon: FileText, label: 'Assignments', href: '/admin/assignments' },
-  { icon: Award, label: 'Certificates', href: '/admin/certificates' },
-  { icon: BarChart3, label: 'Analytics', href: '/admin/analytics' },
-  { icon: MessageSquare, label: 'Messages', href: '/admin/messages' },
-  { icon: Bell, label: 'Notifications', href: '/admin/notifications' },
-  { icon: CreditCard, label: 'Billing', href: '/admin/billing' },
-  { icon: Shield, label: 'Security', href: '/admin/security' },
-  { icon: Database, label: 'Backup', href: '/admin/backup' },
-  { icon: Globe, label: 'Integration', href: '/admin/integration' },
-  { icon: Smartphone, label: 'Mobile App', href: '/admin/mobile' },
-  { icon: Monitor, label: 'System Monitor', href: '/admin/monitor' },
-  { icon: Cloud, label: 'Cloud Storage', href: '/admin/storage' },
-  { icon: Mail, label: 'Email Templates', href: '/admin/email' },
-  { icon: Phone, label: 'Support', href: '/admin/support' },
-  { icon: HelpCircle, label: 'Help Center', href: '/admin/help' },
-  { icon: Settings, label: 'Settings', href: '/admin/settings' },
-];
 
 export default function Sidebar({ isCollapsed, setIsCollapsed }: SidebarProps) {
   const router = useRouter();
@@ -68,17 +21,13 @@ export default function Sidebar({ isCollapsed, setIsCollapsed }: SidebarProps) {
 
   const handleLogout = async () => {
     try {
-      // Import API service dynamically
-      const { default: adminApi } = await import('@/lib/adminApi');
-      
-      await adminApi.logout();
+      await adminApiService.logout();
       showSuccessToast('Logged out successfully');
-      router.push('/admin/login');
+      router.push(ROUTES.auth.login);
     } catch (error) {
       console.error('Logout error:', error);
       showErrorToast('Error during logout');
-      // Still redirect even if logout API fails
-      router.push('/admin/login');
+      router.push(ROUTES.auth.login);
     }
   };
 
@@ -132,7 +81,7 @@ export default function Sidebar({ isCollapsed, setIsCollapsed }: SidebarProps) {
       {/* Navigation */}
       <div className="relative flex-1 overflow-hidden">
         <nav className="h-full p-4 space-y-2 overflow-y-auto scrollbar-thin">
-          {menuItems.map((item) => {
+          {ADMIN_MENU_ITEMS.map((item) => {
             const Icon = item.icon;
             const isActive = pathname === item.href;
             

@@ -9,11 +9,11 @@ import {
 } from 'lucide-react';
 
 // Components
-import AdminLayout from '@/components/admin/AdminLayout';
-import StatsCard from '@/components/admin/StatsCard';
-import { EnrollmentChart, CourseDistributionChart, ActivityChart } from '@/components/admin/Charts';
-import ActivityFeed from '@/components/admin/ActivityFeed';
-import QuickActions from '@/components/admin/QuickActions';
+import AdminLayout from '@/src/features/admin/components/AdminLayout';
+import StatsCard from '@/src/features/admin/components/StatsCard';
+import { EnrollmentChart, CourseDistributionChart, ActivityChart } from '@/src/features/admin/components/Charts';
+import ActivityFeed from '@/src/features/admin/components/ActivityFeed';
+import QuickActions from '@/src/features/admin/components/QuickActions';
 
 export default function AdminDashboard() {
   return (

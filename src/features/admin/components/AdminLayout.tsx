@@ -28,7 +28,7 @@ export default function AdminLayout({
     const checkAuth = async () => {
       try {
         // Import API service dynamically
-        const { default: adminApi } = await import('@/lib/adminApi');
+        const { default: adminApi } = await import('@/src/services/admin-api.service');
         
         if (!adminApi.isAuthenticated()) {
           router.push('/admin/login');
